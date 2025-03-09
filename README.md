@@ -1,5 +1,5 @@
 # PrePy ERP System
-<img src="logo.png" width="800" height="430" alt="scrcpy" align="right" />
+<img src="logo.png" alt="logo" align="center" />
 一个全面的企业资源规划（ERP）系统，使用Python后端，Vue.js前端和PostgreSQL数据库。
 
 ## 系统架构
