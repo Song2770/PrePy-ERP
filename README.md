@@ -32,7 +32,11 @@
 1. 创建虚拟环境:
 ```bash
 python -m venv venv
+```
+```bash
 venv\Scripts\activate  # Windows
+```
+```bash
 source venv/bin/activate  # Linux/MacOS
 ```
 
@@ -68,11 +72,11 @@ npm run dev
 ```
 
 ## API文档
-
+~~
 启动后端服务器后，可以在以下位置访问API文档:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
-
+~~
 ## 数据库模式
 
 详细的数据库模式文档位于 `database/schema.md`。
