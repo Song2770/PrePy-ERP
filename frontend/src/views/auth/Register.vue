@@ -4,14 +4,14 @@
       
       <el-form
         ref="registerForm"
-        :model="registerForm"
+        :model="form"
         :rules="registerRules"
         label-position="top"
         @submit.prevent="handleRegister"
       >
         <el-form-item label="用户名" prop="username">
           <el-input
-            v-model="registerForm.username"
+            v-model="form.username"
             placeholder="请输入用户名"
             prefix-icon="User"
             autocomplete="username"
@@ -20,7 +20,7 @@
         
         <el-form-item label="真实姓名" prop="full_name">
           <el-input
-            v-model="registerForm.full_name"
+            v-model="form.full_name"
             placeholder="请输入真实姓名"
             prefix-icon="User"
           />
@@ -28,7 +28,7 @@
         
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model="registerForm.email"
+            v-model="form.email"
             placeholder="请输入邮箱"
             prefix-icon="Message"
             autocomplete="email"
@@ -37,7 +37,7 @@
         
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model="registerForm.password"
+            v-model="form.password"
             placeholder="请输入密码"
             prefix-icon="Lock"
             type="password"
@@ -48,7 +48,7 @@
         
         <el-form-item label="确认密码" prop="confirmPassword">
           <el-input
-            v-model="registerForm.confirmPassword"
+            v-model="form.confirmPassword"
             placeholder="请确认密码"
             prefix-icon="Lock"
             type="password"
@@ -185,7 +185,8 @@
         registerForm,
         registerRules: rules,
         loading,
-        handleRegister
+        handleRegister,
+        form
       };
     }
   });

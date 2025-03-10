@@ -30,20 +30,20 @@ app.add_middleware(
 )
 
 # Import and include routers
-from app.api.v1.auth import router as auth_router
-from app.api.v1.users import router as users_router
-from app.api.v1.sales import router as sales_router
-from app.api.v1.technical import router as technical_router
-from app.api.v1.planning import router as planning_router
-from app.api.v1.production import router as production_router
-from app.api.v1.purchasing import router as purchasing_router
-from app.api.v1.inventory import router as inventory_router
-from app.api.v1.finance import router as finance_router
-from app.api.v1.scm import router as scm_router
-from app.api.v1.crm import router as crm_router
-from app.api.v1.hrm import router as hrm_router
-from app.api.v1.analytics import router as analytics_router
-from app.api.v1.dashboard import router as dashboard_router
+from .app.api.v1.auth import router as auth_router
+from .app.api.v1.users import router as users_router
+from .app.api.v1.sales import router as sales_router
+from .app.api.v1.technical import router as technical_router
+from .app.api.v1.planning import router as planning_router
+from .app.api.v1.production import router as production_router
+from .app.api.v1.purchasing import router as purchasing_router
+from .app.api.v1.inventory import router as inventory_router
+from .app.api.v1.finance import router as finance_router
+from .app.api.v1.scm import router as scm_router
+from .app.api.v1.crm import router as crm_router
+from .app.api.v1.hrm import router as hrm_router
+from .app.api.v1.analytics import router as analytics_router
+from .app.api.v1.dashboard import router as dashboard_router
 
 # Add prefix to all API endpoints
 api_prefix = "/api/v1"
@@ -80,4 +80,4 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

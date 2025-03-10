@@ -4,14 +4,14 @@
     
     <el-form
       ref="loginForm"
-      :model="loginForm"
+      :model="form"
       :rules="loginRules"
       label-position="top"
       @submit.prevent="handleLogin"
     >
       <el-form-item label="用户名" prop="username">
         <el-input
-          v-model="loginForm.username"
+          v-model="form.username"
           placeholder="请输入用户名"
           prefix-icon="User"
           autocomplete="username"
@@ -20,7 +20,7 @@
       
       <el-form-item label="密码" prop="password">
         <el-input
-          v-model="loginForm.password"
+          v-model="form.password"
           placeholder="请输入密码"
           prefix-icon="Lock"
           type="password"
@@ -141,7 +141,8 @@ export default defineComponent({
       loginRules: rules,
       loading,
       rememberMe,
-      handleLogin
+      handleLogin,
+      form // 添加 form 变量到返回值中
     };
   }
 });
@@ -179,4 +180,4 @@ export default defineComponent({
 .text-right {
   text-align: right;
 }
-</style> 
+</style>
