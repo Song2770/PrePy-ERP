@@ -1,5 +1,5 @@
 # PrePy ERP System
-
+<img src="logo.png" alt="logo" align="center" />
 一个全面的企业资源规划（ERP）系统，使用Python后端，Vue.js前端和PostgreSQL数据库。
 
 ## 系统架构
@@ -32,7 +32,11 @@
 1. 创建虚拟环境:
 ```bash
 python -m venv venv
+```
+```bash
 venv\Scripts\activate  # Windows
+```
+```bash
 source venv/bin/activate  # Linux/MacOS
 ```
 
@@ -68,12 +72,14 @@ npm run dev
 ```
 
 ## API文档
+_未实现_
 
 启动后端服务器后，可以在以下位置访问API文档:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
 ## 数据库模式
+_未实现_
 
 详细的数据库模式文档位于 `database/schema.md`。
 
