@@ -13,7 +13,7 @@ from ...models.sales import (
     InvoiceStatus, DeliveryStatus
 )
 from ...config.database import get_db
-from ..auth import get_current_active_user
+from .auth import get_current_active_user
 from pydantic import BaseModel, EmailStr, Field, validator
 
 # Create router
@@ -283,8 +283,6 @@ async def delete_customer(
     
     db.delete(customer)
     db.commit()
-    
-    return None
 
 # --------------------------
 # Quotation Endpoints
@@ -432,7 +430,7 @@ async def delete_quotation(
     quotation_id: int = Path(..., gt=0),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
-) -> Any:
+) -> None:
     """
     Delete a quotation.
     """
@@ -456,8 +454,6 @@ async def delete_quotation(
     # Delete quotation
     db.delete(quotation)
     db.commit()
-    
-    return None
 
 # Additional endpoints would be added for:
 # - Quotation items management
