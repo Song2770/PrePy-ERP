@@ -5,7 +5,7 @@ from datetime import datetime, date
 from typing import Any, Dict, List, Optional
 import uuid
 
-from ...models.user import User
+from ...models.user import User, UserRole
 from ...models.sales import (
     Customer, CustomerContact, SalesQuotation, SalesQuotationItem, 
     SalesOrder, SalesOrderItem, SalesInvoice, SalesInvoiceItem,
@@ -263,26 +263,33 @@ async def update_customer(
 
 @router.delete("/customers/{customer_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_customer(
-    customer_id: int = Path(..., gt=0),
+    customer_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user)
-) -> Any:
+    current_user: User = Depends(get_current_active_user),
+) -> None:
     """
-    Delete a customer.
+    Delete customer by ID.
     """
+    # 仅管理员可以删除客户
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not enough permissions",
+        )
+    
     customer = db.query(Customer).filter(Customer.id == customer_id).first()
     if not customer:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Customer not found"
+            detail="Customer not found",
         )
     
-    # Check if customer has related records
-    # In a real application, you might want to prevent deletion if there are related records
-    # or implement a soft delete mechanism
-    
+    # 删除客户及其关联的联系人
+    db.query(CustomerContact).filter(CustomerContact.customer_id == customer_id).delete()
     db.delete(customer)
     db.commit()
+    
+    return None
 
 # --------------------------
 # Quotation Endpoints
@@ -461,4 +468,4 @@ async def delete_quotation(
 # - Sales orders management
 # - Sales invoices
 # - Sales deliveries
-# - etc. 
+# - etc.

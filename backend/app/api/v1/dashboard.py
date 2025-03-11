@@ -12,7 +12,7 @@ from ...models.sales import (
 )
 from ...models.technical import Product, ProductCategory
 from ...config.database import get_db
-from ..auth import get_current_active_user
+from .auth import get_current_active_user
 
 # Create router
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
@@ -266,7 +266,7 @@ async def get_recent_activities(
         {
             "date": (datetime.now() - timedelta(hours=3)).strftime("%Y-%m-%d %H:%M:%S"),
             "type": "更新",
-            "description": "更新了产品"工业风扇"的价格",
+            "description": "更新了产品'工业风扇'的价格",
             "user": "产品经理"
         },
         {
@@ -274,7 +274,7 @@ async def get_recent_activities(
             "type": "发货",
             "description": "销售订单 #SO-2023001 已发货",
             "user": "仓库管理员"
-        }
-    ]
+            }
+        ]
     
     return activities[:limit] 

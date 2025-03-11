@@ -51,6 +51,7 @@ class RouteStatus(str, enum.Enum):
 class Product(Base):
     """Product model"""
     __tablename__ = "products"
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, index=True)
     code = Column(String, unique=True, index=True)
@@ -278,4 +279,4 @@ class TechnicalDocument(Base):
     route = relationship("ProductionRoute")
     
     def __repr__(self):
-        return f"<TechnicalDocument {self.document_number} - {self.title}>" 
+        return f"<TechnicalDocument {self.document_number} - {self.title}>"
