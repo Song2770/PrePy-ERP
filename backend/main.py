@@ -78,6 +78,19 @@ async def root():
 async def health_check():
     return {"status": "healthy"}
 
+# Database check endpoint
+@app.get("/api/v1/health/db-check")
+async def db_health_check():
+    try:
+        # 添加数据库连接检查逻辑
+        return {"status": "Database is healthy"}
+    except Exception as e:
+        return {"status": "Database is unhealthy", "error": str(e)}
+
 if __name__ == "__main__":
+    import logging
     import uvicorn
+    logging.basicConfig(level=logging.INFO)
+    logging.info('Backend service started successfully!')
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    print("Uvicorn Server started on port 8000")

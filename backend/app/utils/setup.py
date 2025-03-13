@@ -28,7 +28,7 @@ def create_admin_user(db: Session):
             username="admin",
             email="admin@example.com",
             full_name="System Administrator",
-            hashed_password=get_password_hash("admin"),  # Change this in production
+            hashed_password=get_password_hash("123456"),  # Change this in production
             role=UserRole.ADMIN,
             is_active=True,
             is_superuser=True,

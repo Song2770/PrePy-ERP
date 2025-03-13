@@ -179,7 +179,7 @@ async def register(
         
         return db_user
     except Exception as e:
-        logging.error(f"Registration error: {e}")
+        logging.error(f"Registration error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",

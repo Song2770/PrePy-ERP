@@ -25,6 +25,7 @@ apiClient.interceptors.request.use(
 );
 
 // Add response interceptor to handle token refresh
+console.log('Connected')
 apiClient.interceptors.response.use(
   (response) => {
     return response;
@@ -102,4 +103,4 @@ export const fetchCurrentUser = async () => {
   return response.data;
 };
 
-export default apiClient; 
+export default apiClient;

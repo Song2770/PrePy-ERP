@@ -165,7 +165,7 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { useOrderApi } from '@/api/sales/order';
+import { useOrderApi } from '@/api/sales/order.js';
 import { useInvoiceApi } from '@/api/sales/invoice';
 import { useDeliveryApi } from '@/api/sales/delivery';
 
