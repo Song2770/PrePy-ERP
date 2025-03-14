@@ -45,6 +45,17 @@ def create_sample_users(db: Session):
     """
     sample_users = [
         {
+            "username": "manager",
+            "email": "manager@example.com",
+            "full_name": "General Manager",
+            "role": UserRole.ADMIN,
+            "is_active": True,
+            "is_superuser": True,
+            "password": "password",  # Change this in production
+            "department": "test",
+            "position": "test",
+        },
+        {
             "username": "sales",
             "email": "sales@example.com",
             "full_name": "Sales Manager",
