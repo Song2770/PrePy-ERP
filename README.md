@@ -72,7 +72,6 @@ npm run dev
 ```
 
 ## API文档
-_未实现_
 
 启动后端服务器后，可以在以下位置访问API文档:
 - Swagger UI: http://localhost:8000/docs
