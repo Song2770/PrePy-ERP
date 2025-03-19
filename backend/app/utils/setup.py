@@ -83,6 +83,7 @@ def create_sample_users(db: Session):
             "position": "Production Manager",
         },
     ]
+    print("Sample users created")
     
     created_users = []
     for user_data in sample_users:

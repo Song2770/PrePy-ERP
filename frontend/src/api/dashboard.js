@@ -1,12 +1,28 @@
 import apiClient from './auth';
 
 /**
- * Fetch dashboard data
+ * Fetch dashboard data with retry functionality
  * @returns {Promise} - API response
  */
 export const fetchDashboardData = async () => {
-  const response = await apiClient.get('/dashboard');
-  return response.data;
+  try {
+    const response = await apiClient.get('/dashboard');
+    return response.data;
+  } catch (error) {
+    // 如果出现网络错误或其他非401错误，尝试重试一次
+    if (!error.response || (error.response && error.response.status !== 401)) {
+      try {
+        // 等待500ms后重试
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const retryResponse = await apiClient.get('/dashboard');
+        return retryResponse.data;
+      } catch (retryError) {
+        // 重试也失败，抛出原始错误
+        throw error;
+      }
+    }
+    throw error;
+  }
 };
 
 /**

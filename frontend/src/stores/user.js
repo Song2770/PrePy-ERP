@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { login, register, fetchCurrentUser, refreshToken } from '@/api/auth';
+import { login, register, fetchCurrentUser } from '@/api/auth';
 
 export const useUserStore = defineStore('user', () => {
   // State
   const user = ref(null);
-  const token = ref(null);
-  const refreshTokenValue = ref(null);
   
   // Getters
-  const isLoggedIn = computed(() => !!token.value);
+  const isLoggedIn = computed(() => {
+    return !!localStorage.getItem('token');
+  });
   const isAdmin = computed(() => user.value?.role === 'admin');
   const userRole = computed(() => user.value?.role);
   
@@ -18,25 +18,8 @@ export const useUserStore = defineStore('user', () => {
     user.value = userData;
   }
   
-  function setToken(tokenValue, refreshTokenVal = null) {
-    token.value = tokenValue;
-    if (refreshTokenVal) {
-      refreshTokenValue.value = refreshTokenVal;
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('token', tokenValue);
-    if (refreshTokenVal) {
-      localStorage.setItem('refreshToken', refreshTokenVal);
-    }
-  }
-  
   function clearUser() {
     user.value = null;
-    token.value = null;
-    refreshTokenValue.value = null;
-    
-    // Clear from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
   }
@@ -44,11 +27,14 @@ export const useUserStore = defineStore('user', () => {
   async function loginUser(credentials) {
     try {
       const response = await login(credentials);
-      setToken(response.access_token, response.refresh_token);
-      await fetchUserData();
-      return true;
+      if (response && response.access_token) {
+        // 登录成功后获取用户数据
+        await loadUserData();
+        return true;
+      }
+      return false;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('登录错误:', error);
       return false;
     }
   }
@@ -58,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
       const response = await register(userData);
       return response;
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('注册错误:', error);
       throw error;
     }
   }
@@ -67,53 +53,37 @@ export const useUserStore = defineStore('user', () => {
     clearUser();
   }
   
-  async function fetchUserData() {
+  async function loadUserData() {
     try {
+      if (!localStorage.getItem('token')) {
+        return null;
+      }
+      
       const userData = await fetchCurrentUser();
       setUser(userData);
       return userData;
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('获取用户数据错误:', error);
+      // 如果获取用户数据失败，清除用户状态
       if (error.response && error.response.status === 401) {
-        // Try to refresh token
-        await refreshUserToken();
+        clearUser();
       }
       return null;
     }
   }
   
-  async function refreshUserToken() {
-    if (!refreshTokenValue.value) {
-      clearUser();
-      return false;
-    }
-    
-    try {
-      const response = await refreshToken(refreshTokenValue.value);
-      setToken(response.access_token);
-      return true;
-    } catch (error) {
-      console.error('Token refresh error:', error);
-      clearUser();
-      return false;
-    }
-  }
-  
-  function initializeFromStorage() {
-    const storedToken = localStorage.getItem('token');
-    const storedRefreshToken = localStorage.getItem('refreshToken');
-    
-    if (storedToken) {
-      setToken(storedToken, storedRefreshToken);
-      fetchUserData();
+  function initializeApp() {
+    // 只在有token的情况下尝试加载用户数据
+    if (localStorage.getItem('token')) {
+      loadUserData().catch(() => {
+        // 如果加载失败，静默处理
+      });
     }
   }
   
   return {
     // State
     user,
-    token,
-    refreshTokenValue,
     
     // Getters
     isLoggedIn,
@@ -122,13 +92,11 @@ export const useUserStore = defineStore('user', () => {
     
     // Actions
     setUser,
-    setToken,
     clearUser,
     loginUser,
     registerUser,
     logoutUser,
-    fetchUserData,
-    refreshUserToken,
-    initializeFromStorage,
+    loadUserData,
+    initializeApp
   };
 }); 

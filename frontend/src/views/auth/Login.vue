@@ -91,7 +91,7 @@ export default defineComponent({
       ],
       password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, message: '密码长度至少为6个字符', trigger: 'blur' }
+        { min: 5, message: '密码长度至少为5个字符', trigger: 'blur' }
       ]
     };
     
@@ -114,9 +114,10 @@ export default defineComponent({
                 message: '登录成功'
               });
               
-              // Redirect user
-              const redirectPath = route.query.redirect || '/';
-              router.push(redirectPath);
+              setTimeout(() => {
+                const redirectPath = route.query.redirect || '/';
+                router.push(redirectPath);
+              }, 300);
             } else {
               ElMessage({
                 type: 'error',
@@ -142,7 +143,7 @@ export default defineComponent({
       loading,
       rememberMe,
       handleLogin,
-      form // 添加 form 变量到返回值中
+      form
     };
   }
 });

@@ -12,7 +12,7 @@ export default defineComponent({
     const userStore = useUserStore();
     
     // Try to load user from localStorage on app start
-    userStore.initializeFromStorage();
+    userStore.initializeApp();
     
     return {};
   }

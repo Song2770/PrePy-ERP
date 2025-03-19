@@ -66,6 +66,18 @@ const routes = [
             meta: { title: '报价单' }
           },
           {
+            path: 'quotations/create',
+            name: 'QuotationCreate',
+            component: () => import('@/views/sales/QuotationEdit.vue'),
+            meta: { title: '新建报价单' }
+          },
+          {
+            path: 'quotations/:id/edit',
+            name: 'QuotationEdit',
+            component: () => import('@/views/sales/QuotationEdit.vue'),
+            meta: { title: '编辑报价单' }
+          },
+          {
             path: 'quotations/:id',
             name: 'SalesQuotationDetail',
             component: SalesQuotationDetail,
@@ -189,6 +201,48 @@ const routes = [
             meta: { title: '用户列表', requiresAdmin: true }
           }
         ]
+      },
+      // Planning Management Routes
+      {
+        path: 'planning',
+        name: 'Planning',
+        component: MainLayout,
+        meta: { title: '计划管理', icon: 'calendar' },
+        children: [
+          {
+            path: 'production-plans',
+            name: 'ProductionPlans',
+            component: () => import('@/views/planning/ProductionPlans.vue'),
+            meta: { title: '生产计划' }
+          },
+          {
+            path: 'production-plans/create',
+            name: 'CreateProductionPlan',
+            component: () => import('@/views/planning/ProductionPlanEdit.vue'),
+            meta: { title: '创建生产计划', activeMenu: '/planning/production-plans' },
+            hidden: true
+          },
+          {
+            path: 'production-plans/:id',
+            name: 'ProductionPlanDetail',
+            component: () => import('@/views/planning/ProductionPlanDetail.vue'),
+            meta: { title: '生产计划详情', activeMenu: '/planning/production-plans' },
+            hidden: true
+          },
+          {
+            path: 'production-plans/:id/edit',
+            name: 'EditProductionPlan',
+            component: () => import('@/views/planning/ProductionPlanEdit.vue'),
+            meta: { title: '编辑生产计划', activeMenu: '/planning/production-plans' },
+            hidden: true
+          },
+          {
+            path: 'mrp',
+            name: 'MaterialRequirementPlans',
+            component: () => import('@/views/planning/MaterialRequirementPlans.vue'),
+            meta: { title: '物料需求计划' }
+          }
+        ]
       }
     ]
   },
@@ -248,21 +302,28 @@ router.beforeEach((to, from, next) => {
   const isAdmin = userStore.isAdmin;
   const isGuestRoute = to.matched.some(record => record.meta.guest);
   
+  // 确保在需要时加载用户数据
+  if (isLoggedIn && !userStore.user) {
+    userStore.loadUserData();
+  }
+  
   // Check if route requires authentication
   if (requiresAuth && !isLoggedIn) {
     next({ name: 'Login', query: { redirect: to.fullPath } });
+    return;
   }
   // Check if route requires admin privileges
-  else if (requiresAdmin && !isAdmin) {
+  if (requiresAdmin && !isAdmin) {
     next({ name: 'Forbidden' });
+    return;
   }
   // Redirect authenticated users away from guest routes (like Login)
-  else if (isLoggedIn && isGuestRoute) {
+  if (isLoggedIn && isGuestRoute) {
     next({ name: 'Dashboard' });
+    return;
   }
-  else {
-    next();
-  }
+  
+  next();
 });
 
 export default router; 

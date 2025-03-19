@@ -7,6 +7,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 import App from './App.vue';
 import router from './router';
+import { useUserStore } from './stores/user';
 import './assets/styles/main.scss';
 
 const app = createApp(App);
@@ -23,5 +24,9 @@ app.use(ElementPlus, {
   locale: zhCn,
   size: 'default',
 });
+
+// 初始化用户状态
+const userStore = useUserStore();
+userStore.initializeApp();
 
 app.mount('#app'); 

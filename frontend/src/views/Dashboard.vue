@@ -117,7 +117,7 @@ import { defineComponent, ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { ElMessage } from 'element-plus';
-// import { fetchDashboardData } from '@/api/dashboard';
+import { fetchDashboardData } from '@/api/dashboard';
 
 export default defineComponent({
   name: 'DashboardPage',
@@ -203,12 +203,25 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        // In a real application, you would fetch data from the API
-        // const data = await fetchDashboardData();
-        // dashboardData.value = data;
+        // 获取仪表板数据
+        const data = await fetchDashboardData();
+        dashboardData.value = data;
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
-        ElMessage.error('获取仪表板数据失败');
+        if (error.response && error.response.status === 401) {
+          ElMessage.error('会话已过期，请重新登录');
+          router.push('/auth/login');
+        } else {
+          ElMessage.error('获取仪表板数据失败');
+          // 设置默认为空数据
+          dashboardData.value = {
+            salesOrders: 0,
+            salesAmount: 0,
+            productsCount: 0,
+            customersCount: 0,
+            recentActivities: []
+          };
+        }
       }
     });
 

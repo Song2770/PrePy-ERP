@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { useUserStore } from '@/stores/user';
 
-// Create axios instance
+// 创建axios实例
 const apiClient = axios.create({
   baseURL: '/api/v1',
   headers: {
@@ -10,12 +9,12 @@ const apiClient = axios.create({
   },
 });
 
-// Add request interceptor to add auth token
+// 添加请求拦截器
 apiClient.interceptors.request.use(
   (config) => {
-    const userStore = useUserStore();
-    if (userStore.token) {
-      config.headers.Authorization = `Bearer ${userStore.token}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -24,60 +23,37 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Add response interceptor to handle token refresh
-console.log('Connected')
-apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const originalRequest = error.config;
-    
-    // If error is 401 and not already retried
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      
-      try {
-        const userStore = useUserStore();
-        const refreshed = await userStore.refreshUserToken();
-        
-        if (refreshed) {
-          // Retry the request with new token
-          originalRequest.headers.Authorization = `Bearer ${userStore.token}`;
-          return apiClient(originalRequest);
-        }
-      } catch (refreshError) {
-        console.error('Error refreshing token:', refreshError);
-      }
-    }
-    
-    return Promise.reject(error);
-  }
-);
-
 /**
- * Login user
- * @param {Object} credentials - User credentials
- * @returns {Promise} - API response
+ * 登录用户
+ * @param {Object} credentials - 用户凭证
+ * @returns {Promise} - API响应
  */
 export const login = async (credentials) => {
   const formData = new FormData();
   formData.append('username', credentials.username);
   formData.append('password', credentials.password);
   
-  const response = await apiClient.post('/auth/login', formData, {
+  const response = await axios.post('/api/v1/auth/login', formData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   });
   
+  // 直接存储token到localStorage
+  if (response.data && response.data.access_token) {
+    localStorage.setItem('token', response.data.access_token);
+    if (response.data.refresh_token) {
+      localStorage.setItem('refreshToken', response.data.refresh_token);
+    }
+  }
+  
   return response.data;
 };
 
 /**
- * Register new user
- * @param {Object} userData - User data
- * @returns {Promise} - API response
+ * 注册新用户
+ * @param {Object} userData - 用户数据
+ * @returns {Promise} - API响应
  */
 export const register = async (userData) => {
   const response = await apiClient.post('/auth/register', userData);
@@ -85,22 +61,26 @@ export const register = async (userData) => {
 };
 
 /**
- * Refresh access token
- * @param {string} refreshToken - Refresh token
- * @returns {Promise} - API response
- */
-export const refreshToken = async (refreshToken) => {
-  const response = await apiClient.post('/auth/refresh', { refresh_token: refreshToken });
-  return response.data;
-};
-
-/**
- * Fetch current user data
- * @returns {Promise} - API response
+ * 获取当前用户数据
+ * @returns {Promise} - API响应
  */
 export const fetchCurrentUser = async () => {
-  const response = await apiClient.get('/auth/me');
-  return response.data;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
+  }
+  
+  try {
+    const response = await apiClient.get('/auth/me');
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // 清除无效的token
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+    }
+    throw error;
+  }
 };
 
 export default apiClient;
