@@ -1,10 +1,17 @@
 /* Base styles */
 :root {
-  --primary-color: #409EFF;
-  --success-color: #67C23A;
-  --warning-color: #E6A23C;
-  --danger-color: #F56C6C;
-  --info-color: #909399;
+  --primary-color: #0088ff;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --danger-color: #F44336;
+  --info-color: #607D8B;
+  
+  --shadow-1: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-2: 0 4px 10px rgba(0,0,0,0.08);
+  --shadow-3: 0 6px 10px -3px rgba(0, 0, 0, 0.08);
+  
+  --spacing-unit: 8px;
+  --border-radius: 10px;
 }
 
 * {
@@ -14,11 +21,12 @@
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #303133;
-  background-color: #f5f7fa;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #fafafa;
+  line-height: 1.5;
 }
 
 /* Common utility classes */
@@ -80,47 +88,57 @@ body {
 
 /* Page and component styles */
 .page-container {
-  padding: 20px;
+  padding: calc(var(--spacing-unit) * 3);
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .page-header {
-  margin-bottom: 20px;
+  margin-bottom: calc(var(--spacing-unit) * 3);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: var(--spacing-unit);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .page-title {
   font-size: 24px;
   font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .card-container {
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-1);
+  padding: calc(var(--spacing-unit) * 3);
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-container:hover {
+  box-shadow: var(--shadow-2);
 }
 
 .card-header {
-  border-bottom: 1px solid #ebeef5;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding-bottom: calc(var(--spacing-unit) * 2);
+  margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
 .form-actions {
-  margin-top: 20px;
+  margin-top: calc(var(--spacing-unit) * 3);
   display: flex;
   justify-content: flex-end;
 }
 
 .form-actions button {
-  margin-left: 10px;
+  margin-left: var(--spacing-unit);
 }
 
 .table-operations {
-  margin-bottom: 20px;
+  margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
 .table-operations-left {
@@ -134,7 +152,7 @@ body {
 }
 
 .pagination {
-  margin-top: 20px;
+  margin-top: calc(var(--spacing-unit) * 2);
   display: flex;
   justify-content: flex-end;
 }
@@ -164,6 +182,50 @@ body {
   background-color: var(--danger-color);
 }
 
+/* 添加Material Design相关样式 */
+.md-elevation-1 {
+  box-shadow: var(--shadow-1);
+}
+
+.md-elevation-2 {
+  box-shadow: var(--shadow-2);
+}
+
+.md-elevation-3 {
+  box-shadow: var(--shadow-3);
+}
+
+.md-button {
+  display: inline-block;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.md-button:hover {
+  background-color: #0077e6;
+  box-shadow: var(--shadow-2);
+}
+
+.md-button-text {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.md-button-text:hover {
+  background-color: rgba(0, 136, 255, 0.08);
+  box-shadow: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .page-header {
@@ -172,7 +234,7 @@ body {
   }
   
   .page-title {
-    margin-bottom: 10px;
+    margin-bottom: var(--spacing-unit);
   }
   
   .table-operations {
@@ -180,7 +242,7 @@ body {
   }
   
   .table-operations-right {
-    margin-top: 10px;
+    margin-top: var(--spacing-unit);
     justify-content: flex-start;
   }
 } 

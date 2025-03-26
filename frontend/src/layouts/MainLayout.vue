@@ -5,6 +5,7 @@
       <el-aside width="220px" class="sidebar">
         <div class="logo-container">
           <h1 class="logo">PrePy ERP</h1>
+          <h2 class="logo-sub">轻量化企业资源规划系统</h2>
         </div>
         
         <el-menu
@@ -198,18 +199,28 @@ export default {
 }
 
 .logo-container {
-  height: 60px;
+  height: 80px;
   padding: 0 20px;
   display: flex;
   align-items: center;
+  display: table-cell;
+  overflow: hidden;
   justify-content: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .logo {
   color: white;
+  font-size: 23px;
+  ;
+}
+
+.logo-sub {
+  color: #eee;
   margin: 0;
-  font-size: 18px;
+  font-size: 13px;
+  font-weight: 400;
 }
 
 .el-menu-vertical {
@@ -217,7 +228,7 @@ export default {
 }
 
 .el-container {
-  margin-left: 220px;
+  margin-left: 150px;
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -225,18 +236,23 @@ export default {
 }
 
 .header {
-  background-color: white;
-  border-bottom: 1px solid #eee;
+  height: 9vh;
+  background-color: whibte;
+  border-bottom: 2px solid #eee;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 22px;
+  padding-top: 5px;
 }
 
 .user-dropdown {
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-weight: bold;
 }
 
 .el-main {
@@ -251,6 +267,7 @@ export default {
   text-align: center;
   color: #666;
   font-size: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-top: 1px solid #eee;
   background-color: white;
 }
