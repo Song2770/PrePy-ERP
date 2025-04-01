@@ -1,4 +1,5 @@
 import axios from 'axios';
+import service from '@/utils/request';
 
 // 创建axios实例
 const apiClient = axios.create({
@@ -29,25 +30,33 @@ apiClient.interceptors.request.use(
  * @returns {Promise} - API响应
  */
 export const login = async (credentials) => {
-  const formData = new FormData();
-  formData.append('username', credentials.username);
-  formData.append('password', credentials.password);
+  // 设置登录状态
+  service.isLoggingIn = true;
   
-  const response = await axios.post('/api/v1/auth/login', formData, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
-  
-  // 直接存储token到localStorage
-  if (response.data && response.data.access_token) {
-    localStorage.setItem('token', response.data.access_token);
-    if (response.data.refresh_token) {
-      localStorage.setItem('refreshToken', response.data.refresh_token);
+  try {
+    const formData = new FormData();
+    formData.append('username', credentials.username);
+    formData.append('password', credentials.password);
+    
+    const response = await axios.post('/api/v1/auth/login', formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    
+    // 直接存储token到localStorage
+    if (response.data && response.data.access_token) {
+      localStorage.setItem('token', response.data.access_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('refreshToken', response.data.refresh_token);
+      }
     }
+    
+    return response.data;
+  } finally {
+    // 重置登录状态
+    service.isLoggingIn = false;
   }
-  
-  return response.data;
 };
 
 /**

@@ -27,6 +27,11 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Create base class for models
 Base = declarative_base()
 
+def drop_all_tables():
+    """Drop all tables in the database."""
+    Base.metadata.drop_all(bind=engine)
+    print("All tables dropped successfully.")
+
 # Database dependency
 def get_db():
     """

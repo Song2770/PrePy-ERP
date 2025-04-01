@@ -6,7 +6,7 @@ import apiClient from './auth';
  */
 export const fetchDashboardData = async () => {
   try {
-    const response = await apiClient.get('/dashboard');
+    const response = await apiClient.get('/dashboard/');
     return response.data;
   } catch (error) {
     // 如果出现网络错误或其他非401错误，尝试重试一次
@@ -14,7 +14,7 @@ export const fetchDashboardData = async () => {
       try {
         // 等待500ms后重试
         await new Promise(resolve => setTimeout(resolve, 500));
-        const retryResponse = await apiClient.get('/dashboard');
+        const retryResponse = await apiClient.get('/dashboard/');
         return retryResponse.data;
       } catch (retryError) {
         // 重试也失败，抛出原始错误
@@ -31,7 +31,7 @@ export const fetchDashboardData = async () => {
  * @returns {Promise} - API response
  */
 export const fetchDashboardStats = async (period = 'month') => {
-  const response = await apiClient.get(`/dashboard/stats?period=${period}`);
+  const response = await apiClient.get(`/dashboard/stats/?period=${period}`);
   return response.data;
 };
 
@@ -41,7 +41,7 @@ export const fetchDashboardStats = async (period = 'month') => {
  * @returns {Promise} - API response
  */
 export const fetchRecentActivities = async (limit = 10) => {
-  const response = await apiClient.get(`/dashboard/activities?limit=${limit}`);
+  const response = await apiClient.get(`/dashboard/activities/?limit=${limit}`);
   return response.data;
 };
 
@@ -51,7 +51,7 @@ export const fetchRecentActivities = async (limit = 10) => {
  * @returns {Promise} - API response
  */
 export const fetchSalesChartData = async (period = 'month') => {
-  const response = await apiClient.get(`/dashboard/sales-chart?period=${period}`);
+  const response = await apiClient.get(`/dashboard/sales-chart/?period=${period}`);
   return response.data;
 };
 
@@ -60,7 +60,7 @@ export const fetchSalesChartData = async (period = 'month') => {
  * @returns {Promise} - API response
  */
 export const fetchInventoryStatus = async () => {
-  const response = await apiClient.get('/dashboard/inventory-status');
+  const response = await apiClient.get('/dashboard/inventory-status/');
   return response.data;
 };
 

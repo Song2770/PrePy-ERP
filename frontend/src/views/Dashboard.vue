@@ -208,20 +208,17 @@ export default defineComponent({
         dashboardData.value = data;
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
-        if (error.response && error.response.status === 401) {
-          ElMessage.error('会话已过期，请重新登录');
-          router.push('/auth/login');
-        } else {
+        if (!(error.response && error.response.status === 401)) {
           ElMessage.error('获取仪表板数据失败');
-          // 设置默认为空数据
-          dashboardData.value = {
-            salesOrders: 0,
-            salesAmount: 0,
-            productsCount: 0,
-            customersCount: 0,
-            recentActivities: []
-          };
         }
+        // 设置默认为空数据
+        dashboardData.value = {
+          salesOrders: 0,
+          salesAmount: 0,
+          productsCount: 0,
+          customersCount: 0,
+          recentActivities: []
+        };
       }
     });
 

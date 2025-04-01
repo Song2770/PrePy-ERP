@@ -7,7 +7,7 @@ import request from '@/utils/request';
  */
 export function getOrders(params) {
   return request({
-    url: '/api/sales/orders',
+    url: '/sales/orders',
     method: 'get',
     params
   });
@@ -20,7 +20,7 @@ export function getOrders(params) {
  */
 export function getOrder(id) {
   return request({
-    url: `/api/sales/orders/${id}`,
+    url: `/sales/orders/${id}`,
     method: 'get'
   });
 }
@@ -32,7 +32,7 @@ export function getOrder(id) {
  */
 export function createOrder(orderData) {
   return request({
-    url: '/api/sales/orders',
+    url: '/sales/orders',
     method: 'post',
     data: orderData
   });
@@ -46,7 +46,7 @@ export function createOrder(orderData) {
  */
 export function updateOrder(id, orderData) {
   return request({
-    url: `/api/sales/orders/${id}`,
+    url: `/sales/orders/${id}`,
     method: 'put',
     data: orderData
   });
@@ -59,7 +59,7 @@ export function updateOrder(id, orderData) {
  */
 export function deleteOrder(id) {
   return request({
-    url: `/api/sales/orders/${id}`,
+    url: `/sales/orders/${id}`,
     method: 'delete'
   });
 }
@@ -72,7 +72,7 @@ export function deleteOrder(id) {
  */
 export function updateOrderStatus(id, status) {
   return request({
-    url: `/api/sales/orders/${id}/status`,
+    url: `/sales/orders/${id}/status`,
     method: 'put',
     data: { status }
   });
@@ -86,7 +86,7 @@ export function updateOrderStatus(id, status) {
  */
 export function createOrderFromQuotation(quotationId, additionalData = {}) {
   return request({
-    url: `/api/sales/quotations/${quotationId}/convert`,
+    url: `/sales/quotations/${quotationId}/convert`,
     method: 'post',
     data: additionalData
   });
@@ -99,7 +99,7 @@ export function createOrderFromQuotation(quotationId, additionalData = {}) {
  */
 export function getOrderItems(orderId) {
   return request({
-    url: `/api/sales/orders/${orderId}/items`,
+    url: `/sales/orders/${orderId}/items`,
     method: 'get'
   });
 }
@@ -112,7 +112,7 @@ export function getOrderItems(orderId) {
  */
 export function addOrderItem(orderId, itemData) {
   return request({
-    url: `/api/sales/orders/${orderId}/items`,
+    url: `/sales/orders/${orderId}/items`,
     method: 'post',
     data: itemData
   });
@@ -127,7 +127,7 @@ export function addOrderItem(orderId, itemData) {
  */
 export function updateOrderItem(orderId, itemId, itemData) {
   return request({
-    url: `/api/sales/orders/${orderId}/items/${itemId}`,
+    url: `/sales/orders/${orderId}/items/${itemId}`,
     method: 'put',
     data: itemData
   });
@@ -141,7 +141,7 @@ export function updateOrderItem(orderId, itemId, itemData) {
  */
 export function deleteOrderItem(orderId, itemId) {
   return request({
-    url: `/api/sales/orders/${orderId}/items/${itemId}`,
+    url: `/sales/orders/${orderId}/items/${itemId}`,
     method: 'delete'
   });
 }
@@ -153,7 +153,7 @@ export function deleteOrderItem(orderId, itemId) {
  */
 export function getOrderDeliveries(orderId) {
   return request({
-    url: `/api/sales/orders/${orderId}/deliveries`,
+    url: `/sales/orders/${orderId}/deliveries`,
     method: 'get'
   });
 }
@@ -165,7 +165,7 @@ export function getOrderDeliveries(orderId) {
  */
 export function getOrderInvoices(orderId) {
   return request({
-    url: `/api/sales/orders/${orderId}/invoices`,
+    url: `/sales/orders/${orderId}/invoices`,
     method: 'get'
   });
 }
@@ -177,7 +177,7 @@ export function getOrderInvoices(orderId) {
  */
 export function exportOrderPdf(id) {
   return request({
-    url: `/api/sales/orders/${id}/export`,
+    url: `/sales/orders/${id}/export`,
     method: 'get',
     responseType: 'blob'
   });
@@ -190,7 +190,7 @@ export function exportOrderPdf(id) {
  */
 export function getOrderStatistics(params) {
   return request({
-    url: '/api/sales/orders/statistics',
+    url: '/sales/orders/statistics',
     method: 'get',
     params
   });
@@ -204,7 +204,7 @@ export function getOrderStatistics(params) {
  */
 export function cancelOrder(id, data) {
   return request({
-    url: `/api/sales/orders/${id}/cancel`,
+    url: `/sales/orders/${id}/cancel`,
     method: 'post',
     data
   });

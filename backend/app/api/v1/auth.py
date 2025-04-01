@@ -103,7 +103,7 @@ async def login(
         )
     
     # Update last login time
-    user.last_login = datetime.utcnow()
+    user.last_login = datetime.now()
     db.commit()
     
     return {

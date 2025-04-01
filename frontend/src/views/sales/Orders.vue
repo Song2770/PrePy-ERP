@@ -199,21 +199,46 @@ async function fetchOrders() {
   loading.value = true;
   try {
     const params = {
-      page: currentPage.value,
-      size: pageSize.value,
-      query: searchQuery.value,
+      skip: (currentPage.value - 1) * pageSize.value,
+      limit: pageSize.value,
       status: statusFilter.value,
-      start_date: dateRange.value ? dateRange.value[0] : undefined,
-      end_date: dateRange.value ? dateRange.value[1] : undefined
+      from_date: dateRange.value ? dateRange.value[0] : undefined,
+      to_date: dateRange.value ? dateRange.value[1] : undefined
     };
-    const { data } = await orderApi.getOrders(params);
-    orders.value = data.items;
-    total.value = data.total;
+    const response = await orderApi.getOrders(params);
+    orders.value = response;
+    total.value = response.length;  // 由于后端没有返回总数，我们使用返回数组的长度
   } catch (error) {
     console.error('获取订单列表失败:', error);
     ElMessage.error('获取订单列表失败');
   } finally {
     loading.value = false;
+  }
+}
+
+// 获取订单详情
+async function fetchOrderDetail(id) {
+  try {
+    const response = await orderApi.getOrder(id);
+    currentOrder.value = response;
+    return response;
+  } catch (error) {
+    console.error('获取订单详情失败:', error);
+    ElMessage.error('获取订单详情失败');
+    return null;
+  }
+}
+
+// 获取订单项列表
+async function fetchOrderItems(orderId) {
+  try {
+    const response = await orderApi.getOrderItems(orderId);
+    currentOrder.value.items = response;
+    return response;
+  } catch (error) {
+    console.error('获取订单项列表失败:', error);
+    ElMessage.error('获取订单项列表失败');
+    return null;
   }
 }
 
@@ -241,12 +266,20 @@ function handleCreateOrder() {
 
 // 查看订单
 function handleViewOrder(order) {
-  router.push(`/sales/orders/${order.id}`);
+  if (!order || !order.id) {
+    ElMessage.warning('无效的订单ID');
+    return;
+  }
+  router.push(`/sales/orders/${parseInt(order.id)}`);
 }
 
 // 编辑订单
 function handleEditOrder(order) {
-  router.push(`/sales/orders/edit/${order.id}`);
+  if (!order || !order.id) {
+    ElMessage.warning('无效的订单ID');
+    return;
+  }
+  router.push(`/sales/orders/edit/${parseInt(order.id)}`);
 }
 
 // 订单其他操作
@@ -304,17 +337,25 @@ async function confirmOrder(order) {
 
 // 创建发货单
 function createDelivery(order) {
+  if (!order || !order.id) {
+    ElMessage.warning('无效的订单ID');
+    return;
+  }
   router.push({
     path: '/sales/deliveries/create',
-    query: { order_id: order.id }
+    query: { order_id: parseInt(order.id) }
   });
 }
 
 // 创建发票
 function createInvoice(order) {
+  if (!order || !order.id) {
+    ElMessage.warning('无效的订单ID');
+    return;
+  }
   router.push({
     path: '/sales/invoices/create',
-    query: { order_id: order.id }
+    query: { order_id: parseInt(order.id) }
   });
 }
 

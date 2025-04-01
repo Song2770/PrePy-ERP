@@ -4,9 +4,12 @@ import router from '@/router';
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: '/api/v1',
   timeout: 15000
 });
+
+// 添加一个标志来跟踪是否正在登录
+let isLoggingIn = false;
 
 // 请求拦截器
 service.interceptors.request.use(
@@ -50,8 +53,11 @@ service.interceptors.response.use(
         case 401:
           // 未授权，清除token并跳转到登录页
           localStorage.removeItem('token');
-          router.push('/login');
-          ElMessage.error('登录已过期，请重新登录');
+          // 只有在非登录状态下才显示提示和跳转
+          if (!isLoggingIn) {
+            router.push('/login');
+            ElMessage.error('会话已过期，请重新登录');
+          }
           break;
         case 403:
           ElMessage.error('没有权限访问');

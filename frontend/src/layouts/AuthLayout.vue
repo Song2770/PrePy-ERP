@@ -42,7 +42,7 @@ export default defineComponent({
 .auth-card {
   width: 400px;
   background-color: white;
-  border-radius: 4px;
+  border-radius: 10px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   padding: 40px;
 }
