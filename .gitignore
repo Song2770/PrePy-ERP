@@ -1,9 +1,9 @@
-*。log
-*。temp
-*。tmp
-
+*.log
+*.temp
+*.tmp
+.gitignore
 # 忽略 .idea 目录
-/.idea
+.idea
  
 # 忽略 .vscode 目录
 .vscode
