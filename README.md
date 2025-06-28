@@ -1,13 +1,13 @@
 # PrePy ERP
 <img src="logo.png" alt="logo" align="center" />
-PrePy ERP是一个基于Python和Vite的企业资源计划系统，旨在帮助企业管理销售、制造、采购和库存等日常业务流程。
+PrePy ERP是一个基于Python和Vue的企业资源计划系统，旨在帮助企业管理销售、制造、采购和库存等日常业务流程。
 
 ## 系统架构
 
 本系统采用前后端分离架构：
 
-- 后端：FastAPI (Python)
-- 前端：Vite
+- 后端：FastAPI
+- 前端：Vue
 - 数据库：PostgreSQL
 
 ## 主要功能模块

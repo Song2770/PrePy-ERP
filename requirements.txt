@@ -1,0 +1,27 @@
+# FastAPI 核心依赖
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# 数据库相关
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+alembic==1.12.1
+
+# 认证和安全
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+
+# 数据验证
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# 工具库
+python-dateutil==2.8.2
+typing-extensions==4.8.0
+
+# 开发工具
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
