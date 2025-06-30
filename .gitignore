@@ -28,3 +28,5 @@ build/
 
 # 忽略 venv 目录及其所有子内容
 venv/
+
+.env
