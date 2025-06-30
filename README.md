@@ -4,7 +4,7 @@
   <img src="logo.png" alt="logo" width="400" />
   <p><em>🚀 基于Python和Vue的现代化企业资源计划系统</em></p>
   
-  ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+  ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
   ![Vue](https://img.shields.io/badge/Vue-3.0+-green.svg)
   ![FastAPI](https://img.shields.io/badge/FastAPI-Latest-red.svg)
   ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-orange.svg)
@@ -47,12 +47,15 @@ flowchart LR
     D --> E[🛒 采购管理]
     E --> F[📦 仓库管理]
     F --> G[💳 财务管理]
-    G --> H[⚙️ 系统管理]
     
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
+    style A fill:#0088cc
+    style B fill:#fe6645
+    style C fill:#027600
+    style D fill:#ffcc39
+    style E fill:#009688
+    style F fill:#ff9800
+    style G fill:#ff5722
+
 ```
 
 ### 📋 功能详情
