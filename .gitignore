@@ -1,7 +1,6 @@
 *.log
 *.temp
 *.tmp
-.gitignore
 # 忽略 .idea 目录
 .idea
  
