@@ -142,9 +142,9 @@ source venv/bin/activate
 # 安装依赖
 pip install -r requirements.txt
 
-# 配置数据库连接
+# 配置环境变量
 cp .env.example .env
-# 编辑 .env 文件，配置数据库连接信息
+# 编辑 .env 文件，配置数据库连接和其他环境变量
 
 # 启动后端服务
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
